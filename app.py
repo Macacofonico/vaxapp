@@ -33,7 +33,35 @@ def get_db_cursor():
 
 @app.route('/', methods=['GET']) #http://mysite.com/
 def home():
-    return "<h1>Questo è un progetto di esempio. Le api sono disponibili a /api/v1/</h1>"
+    return """
+<h1>Questo è un progetto di esempio. Le api sono disponibili a /api/v1/</h1>
+
+<ul>
+<li>Sviluppo di una applicazione web (RESTful) che permetta la prenotazione di un vaccino e che supporti l&rsquo;utilizzo di almeno due diversi sistemi di backend (es. Mysql eSqlite).</li>
+<li>Devono essere sviluppati entrambi i container e, nel caso si utilizzino docker disponibili online (presi direttamente da dockerhub), si descriva in dettaglio come questo viene configurato (ad esempio come caricare lo schema).</li>
+<li><strong>Risorse base</strong>: Vaccini, Punto di Vaccino, Utente, Prenotazione,&nbsp;</li>
+<li><strong>Ruoli Base</strong>
+<ul>
+<li><strong>Admin</strong>
+<ol>
+<li>Pu&ograve; aggiungere e cancellare punti vaccino</li>
+<li>Pu&ograve; aggiungere le tipologie di vaccino</li>
+<li>Pu&ograve; modificare una prenotazione di qualsiasi utente</li>
+<li>Pu&ograve; chiedere statistiche (a vostra scelta) sui punti di vaccino e sulle tipologie di vaccino</li>
+</ol>
+</li>
+<li><strong>Utente</strong>
+<ol>
+<li>Pu&ograve; iscriversi al servizio.</li>
+<li>Pu&ograve; effettuare una prenotazione in un determinato giorno e ora per una tipologia di vaccino (pu&ograve; fare una sola prenotazione per vaccino) un punto di vaccinazione</li>
+<li>Pu&ograve; modificarla</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<p>Tutto deve essere implementato secondo lo schema REST con scambio di informazioni in json.</p>
+"""
 
 
 # return all items and create new ones
