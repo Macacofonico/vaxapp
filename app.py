@@ -15,16 +15,16 @@ def dict_factory(cursor, row):
     return d
 
 def get_db_cursor():
-    if os.getenv("MYSQL_HOST",None) != None:
+    if os.getenv("MYSQL_HOST", None) is not None:
         mydb = mysql.connector.connect(
-            host=os.getenv("MYSQL_HOST","mydb"),
-            user=os.getenv("MYSQL_USER","dev-user"),
-            password=os.getenv("MYSQL_PASSWORD","password"),
-            database=os.getenv("MYSQL_DATABASE","cocktails")
+            host=os.getenv("MYSQL_HOST", "mydb"),
+            password=os.getenv("MYSQL_PASSWORD", "password"),
+            user=os.getenv("MYSQL_USER", "dev-user"),
+            database=os.getenv("MYSQL_DATABASE", "cocktails")
         )
         return mydb
-    elif os.getenv("SQLITE3_PATH","cocktail.db") != None:
-        return sqlite3.connect(os.getenv("SQLITE3_PATH","cocktail.db"))
+    elif os.getenv("SQLITE3_PATH", "cocktail.db") is not None:
+        return sqlite3.connect(os.getenv("SQLITE3_PATH", "cocktail.db"))
     else:
         sys.exit("Errors: app.py needs DB parameters (MYSQL or SQLITE).")
 
@@ -79,10 +79,10 @@ def cocktail():
             spiritis = cur.execute('SELECT name FROM suggested_spirits WHERE cocktail=' + str(id) + ';').fetchall()
             cocktail["ingridients"] = ingridients
             cocktail["suggested_spirits"] = spiritis
-        return jsonify(cocktails),200
+        return jsonify(cocktails), 200
     elif request.method == "POST":
         if not request.is_json:
-            return {"error":"only json accepted"},400
+            return {"error": "only json accepted"}, 400
         content = request.get_json()
 
     #{
