@@ -84,23 +84,6 @@ def cocktail():
         if not request.is_json:
             return {"error": "only json accepted"}, 400
         content = request.get_json()
-
-    #{
-	#"name":"gin tonic",
-	#"ingridients":[
-    #	{"name":"gin",
-	#		"size":"6cl"
-	#	}
-	#	,
-	#		{"name":"tonic",
-	#		"size":"12cl"
-    #		}],
-	# "suggested_spirits":["gingarby","hendrix"],
-	# "instructions":"versalo molto bene",
-	#"author":"Luca"
-    # }
-
-
         name = content.get('name')
         author = content.get('author')
         ingridients = content.get('ingridients')
@@ -137,8 +120,8 @@ def single_cocktail(id):
         conn.row_factory = dict_factory
         cur = conn.cursor()
         cocktail = cur.execute('SELECT * FROM cocktail WHERE cocktail_id='+str(id)+';').fetchall()
-        if len(cocktail) == 0 :
-            return "",404
+        if len(cocktail) == 0:
+            return "", 404
         cocktail=cocktail[0]
         ingridients = cur.execute('SELECT name,size FROM ingridients WHERE cocktail='+str(id)+';').fetchall()
         spiritis = cur.execute('SELECT name FROM suggested_spirits WHERE cocktail='+str(id)+';').fetchall()
@@ -152,7 +135,34 @@ def single_cocktail(id):
         cur = conn.cursor()
         cur.execute('DELETE FROM cocktail WHERE cocktail_id=' + str(id) + ';').fetchall()
         conn.commit()
-        return "",204
+        return "", 204
+
+@app.route('/api/vaccine_point/<id>', methods=['GET','PUT','DELETE']) #http://mysite.com/api/v1/vaccine_points/202
+def single_vaccine_point(id):
+    if request.method == "GET":
+        conn = get_db_cursor()
+        conn.row_factory = dict_factory
+        cur = conn.cursor()
+        vaccine_point = cur.execute('SELECT * FROM vaccine_point WHERE vaccine_point='+str(id)+';').fetchall()
+        if len(vaccine_point) == 0:
+            return "", 404
+        vaccine_point = vaccine_point[0]
+        ingridients = cur.execute('SELECT name,size FROM ingridients WHERE vaccine_point='+str(id)+';').fetchall()
+        spiritis = cur.execute('SELECT name FROM suggested_spirits WHERE vaccine_point='+str(id)+';').fetchall()
+        vaccine_point["ingridients"]=ingridients
+        vaccine_point["suggested_spirits"]=spiritis
+        return jsonify(vaccine_point), 200
+    elif request.method == "PUT":
+        return "", 200
+    elif request.method == "DELETE":
+        conn = get_db_cursor()
+        cur = conn.cursor()
+        cur.execute('DELETE FROM vaccine_point WHERE vaccine_point_id=' + str(id) + ';').fetchall()
+        conn.commit()
+        return "", 204
+
+
+
 
 @app.errorhandler(404)
 def page_not_found(e):
